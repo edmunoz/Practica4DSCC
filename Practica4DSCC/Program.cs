@@ -24,8 +24,12 @@ namespace Practica4DSCC
     {
         //Objetos de interface gráfica GLIDE
         private GHI.Glide.Display.Window iniciarWindow;
+        private GHI.Glide.Display.Window temperatura;
         private Button btn_inicio;
         private TextBlock text;
+        private TextBlock temp;
+        private Slider sliderBar;
+        
         private GT.Timer timer;
         // This method is run when the mainboard is powered up or reset.   
         void ProgramStarted()
@@ -47,7 +51,7 @@ namespace Practica4DSCC
             // Use Debug.Print to show messages in Visual Studio's "Output" window during debugging.
             Debug.Print("Program Started");
 
-            timer = new GT.Timer(3000); // every second (1000ms)
+            timer = new GT.Timer(20000); // every second (1000ms)
             timer.Tick += timer_Tick;
 
             
@@ -63,6 +67,7 @@ namespace Practica4DSCC
 
             //Carga la ventana principal
             iniciarWindow = GlideLoader.LoadWindow(Resources.GetString(Resources.StringResources.inicioWindow));
+            temperatura = GlideLoader.LoadWindow(Resources.GetString(Resources.StringResources.lecturaTemperatura));
             GlideTouch.Initialize();
 
             //Inicializa el boton en la interface
@@ -88,14 +93,21 @@ namespace Practica4DSCC
         {
             var x = response.Text;
             Debug.Print(x);
+            temp = (TextBlock)Glide.MainWindow.GetChildByName("texto_temperatura");
+            temp.Text = x;
+            sliderBar = (Slider)Glide.MainWindow.GetChildByName("slider");
+            sliderBar.Value = Convert.ToDouble(x);
+            Glide.MainWindow = temperatura;
         }
 
         void ethernetJ11D_NetworkUp(GTM.Module.NetworkModule sender, GTM.Module.NetworkModule.NetworkState state)
         {
-            timer.Start();
+            
             this.btn_inicio.Enabled = true;
             text.Text = ethernetJ11D.NetworkSettings.IPAddress;
             Glide.MainWindow = iniciarWindow;
+            
+            
             Debug.Print("Activado");
         }
 
@@ -110,10 +122,11 @@ namespace Practica4DSCC
 
         void btn_inicio_TapEvent(object sender)
         {
-            
-            
-            Debug.Print("Iniciar");      
 
+            Glide.MainWindow = temperatura;
+            timer.Start();
+            Debug.Print("Iniciar");
+            
 
 
         }
