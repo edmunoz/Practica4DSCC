@@ -10,5 +10,6 @@ Este código debe de ser usado como guía y comienzo en la **Práctica 4: Intern
 * Proveer al profesor un enlace a la versión modificada de este repositorio presente en su cuenta personal.
 
 # Integrantes
-Fecha:
-* ??
+Fecha: 23/11/2015
+* Esteban Muñoz
+* Christian Vergara
